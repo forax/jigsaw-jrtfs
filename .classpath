@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="backport-build/classes" path="backport-build/src"/>
+	<classpathentry kind="src" output="backport/classes" path="backport/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/asm-debug-all-5.0.3.jar" sourcepath="lib/asm5-src.zip"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

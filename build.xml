@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jigsaw-jrtfs" default="dist">
+    <description>
+        backport jrt-fs jigsaw API to 1.7
+    </description>
+
+	  <property name="asm.jar" location="lib/asm-debug-all-5.0.3.jar"/>
+
+    <target name="dist" depends="jar">      
+    </target>
+
+	  <target name="jar" depends="retro">
+	  	<mkdir dir="output/classes/META-INF/services/"/>
+	  	<copy file="java.nio.file.spi.FileSystemProvider" todir="output/classes/META-INF/services/" />
+	  	<jar basedir="output/classes" destfile="jrtfs-backport.jar" />
+	  </target>
+	
+	  <target name="retro" depends="compile">
+	  	<mkdir dir="output/retro/classes"/>
+	  	<copy todir="output/retro/classes/">
+	  	    <fileset dir="output/jrtfs/classes">
+	  	    	 <exclude name="**/ConcurrentPReader*.class"/>
+	  		  </fileset>
+	  	</copy>
+	  	
+	  	<mkdir dir="output/retro/classes/com/github/forax/jrtfs/backport/"/>
+	  	<copy todir="output/retro/classes/com/github/forax/jrtfs/backport/">
+	  	    <fileset dir="output/backport/classes"/>
+	  	</copy>
+	  	
+	  	<java classname="com.github.forax.jrtfs.backport.RetroWeaver"
+	  	       classpath="${asm.jar}:output/backport-build/classes">
+	  	        <!-- arg line="output/proxy2-retro.jar proxy2-backport7.jar" / -->
+	  	</java>
+	  </target>
+	
+    <target name="compile">
+    	<delete dir="output"/>
+    	<mkdir dir="output"/>
+      
+    	<mkdir dir="output/jrtfs/classes"/>
+    	<javac srcdir="src"
+    	       destdir="output/jrtfs/classes"
+    	       debug="on"
+    		     includeantruntime="no"
+    	/>
+    	
+    	<mkdir dir="output/backport/classes"/>
+    	<javac srcdir="backport/src"
+    	       destdir="output/backport/classes"
+    	       debug="on"
+    	       includeantruntime="no"
+    	 />
+    	
+    	<mkdir dir="output/backport-build/classes"/>
+    	<javac srcdir="backport-build/src"
+    	       destdir="output/backport-build/classes"
+    	       classpath="${asm.jar}"
+    	       debug="on"
+    	       includeantruntime="no"
+    	/>
+    </target>
+
+</project>
