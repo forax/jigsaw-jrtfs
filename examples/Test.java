@@ -5,8 +5,11 @@ import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import sun.misc.Unsafe;
 
@@ -41,11 +44,36 @@ public class Test {
     FileSystem jrtFs = FileSystems.getFileSystem(new URI("jrt:/"));
     for(Path root: jrtFs.getRootDirectories()) {
       System.out.println(root);
+      
+      Files.walkFileTree(root, new FileVisitor<Path>() {
+        @Override
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+          return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+          System.out.println("found " + file);
+          return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+          return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+          return FileVisitResult.CONTINUE;
+        }
+      });
+      
+      /*
       try(DirectoryStream<Path> directoryStream = Files.newDirectoryStream(root)) {
         for(Path path: directoryStream) {
           System.out.println(path);
         }
-      }
+      }*/
     }
   }
 }
