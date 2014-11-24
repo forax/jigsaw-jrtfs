@@ -9,10 +9,16 @@
     <target name="dist" depends="jar">      
     </target>
 
-	  <target name="jar" depends="retro">
+	  <target name="jar" depends="check">
 	  	<mkdir dir="output/classes/META-INF/services/"/>
 	  	<copy file="java.nio.file.spi.FileSystemProvider" todir="output/classes/META-INF/services/" />
 	  	<jar basedir="output/classes" destfile="jrtfs-backport.jar" />
+	  </target>
+	
+	  <target name="check" depends="retro">
+	  	<java classname="com.github.forax.jrtfs.backport.Check"
+	  	      classpath="${asm.jar}:output/backport-build/classes">
+	  	</java>
 	  </target>
 	
 	  <target name="retro" depends="compile">
@@ -60,5 +66,4 @@
     	       includeantruntime="no"
     	/>
     </target>
-
 </project>
