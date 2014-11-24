@@ -12,7 +12,7 @@ while all the other files are under the MIT license.
 To read the jigsaw image format you need to put the jrtfs-backport.jar *and*
 at runtime change 3 global properties
 
-```
+```java
 public class Test {
   private static void patch(Path bootImagePath, Path extImagePath, Path appImagePath) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
     Class<?> systemImagesClass = Class.forName("jdk.internal.jrtfs.SystemImages");
