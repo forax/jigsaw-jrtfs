@@ -9,7 +9,7 @@ and retrofit them to be used by a Java 7 VM.
 Warning: all the files of the directory 'src' are under the OpenJDK classical license (GPL + ClassPath Exception)
 while all the other files are under the MIT license.
 
-To read the jigsaw image format you need to put the jrtfs-backport.jar *and*
+To read the jigsaw image format you need to put the jrtfs-backport.jar in your classpath *and*
 at runtime change 3 global properties
 
 ```java
